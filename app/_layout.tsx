@@ -5,11 +5,10 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import Colors from "@/constants/Colors";
 import { CurriculumProvider } from "@/context/CurriculumContext";
 
-export {
-  ErrorBoundary,
-} from "expo-router";
+export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -41,12 +40,21 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme];
 
   return (
     <CurriculumProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.card },
+            headerTintColor: colors.text,
+            headerTitleStyle: { fontWeight: '700' },
+            headerShadowVisible: false,
+          }}
+        >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="projeto/[id]" options={{ title: 'Projeto', headerBackTitle: 'Voltar' }} />
         </Stack>
       </ThemeProvider>
     </CurriculumProvider>
