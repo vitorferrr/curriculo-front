@@ -1,14 +1,26 @@
-import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
-import { Text, View } from '@/components/Themed';
+import ExperienceCard from '@/components/ExperienceCard';
+import ProjectCard from '@/components/ProjectCard';
+import ScreenState from '@/components/ScreenState';
+import SectionTitle from '@/components/SectionTitle';
+import { Text, useColors } from '@/components/Themed';
 import { useCurriculum } from '@/context/CurriculumContext';
 
 export default function HomeScreen() {
+  const colors = useColors();
   const { profiles, curriculum, selectedProfileId, loading, error, selectProfile, retry } =
     useCurriculum();
 
+  if (loading) return <ScreenState type="loading" />;
+  if (error) return <ScreenState type="error" message={error} onRetry={retry} />;
+  if (!curriculum) return <ScreenState type="empty" message="Nenhum currículo cadastrado." />;
+
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={{ backgroundColor: colors.background }}
+      contentContainerStyle={styles.content}
+    >
       <View style={styles.switcher}>
         {profiles.map((profile) => {
           const active = profile.id === selectedProfileId;
@@ -16,9 +28,13 @@ export default function HomeScreen() {
             <Pressable
               key={profile.id}
               onPress={() => selectProfile(profile.id)}
-              style={[styles.button, active && styles.buttonActive]}
+              style={[
+                styles.button,
+                { borderColor: colors.tint },
+                active && { backgroundColor: colors.tint },
+              ]}
             >
-              <Text style={active ? styles.buttonTextActive : undefined}>
+              <Text style={active ? { color: colors.onTint, fontWeight: '700' } : undefined}>
                 {profile.name.split(' ')[0]}
               </Text>
             </Pressable>
@@ -26,65 +42,53 @@ export default function HomeScreen() {
         })}
       </View>
 
-      {loading && <ActivityIndicator />}
+      <SectionTitle title={curriculum.name} subtitle={curriculum.title ?? undefined} />
 
-      {error && (
-        <>
-          <Text style={styles.error}>{error}</Text>
-          <Pressable onPress={retry} style={styles.button}>
-            <Text>Tentar novamente</Text>
-          </Pressable>
-        </>
-      )}
+      {curriculum.academicExperiences.map((item) => (
+        <ExperienceCard
+          key={item.id}
+          kind="academic"
+          title={item.course}
+          place={item.institution}
+          detail={item.degree}
+          startDate={item.startDate}
+          endDate={item.endDate}
+          description={item.description}
+        />
+      ))}
 
-      {!loading && curriculum && (
-        <>
-          <Text style={styles.title}>{curriculum.name}</Text>
-          <Text>{curriculum.title}</Text>
-          <Text>
-            {curriculum.academicExperiences.length} formação(ões) ·{' '}
-            {curriculum.professionalExperiences.length} experiência(s) ·{' '}
-            {curriculum.projects.length} projeto(s)
-          </Text>
-        </>
-      )}
-    </View>
+      {curriculum.professionalExperiences.map((item) => (
+        <ExperienceCard
+          key={item.id}
+          kind="professional"
+          title={item.position}
+          place={item.company}
+          startDate={item.startDate}
+          endDate={item.endDate}
+          description={item.description}
+        />
+      ))}
+
+      {curriculum.projects.map((project) => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    padding: 20,
+  content: {
+    padding: 16,
   },
   switcher: {
     flexDirection: 'row',
     gap: 8,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   button: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: '#2563eb',
-  },
-  buttonActive: {
-    backgroundColor: '#2563eb',
-  },
-  buttonTextActive: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  error: {
-    color: '#dc2626',
-    textAlign: 'center',
   },
 });
