@@ -1,6 +1,6 @@
 import type { FullProfile, Profile, Project } from "@/types/curriculum";
 
-const API_URL = (
+export const API_URL = (
   process.env.EXPO_PUBLIC_API_URL ?? "https://curriculo-back.vercel.app"
 ).replace(/\/$/, "");
 
