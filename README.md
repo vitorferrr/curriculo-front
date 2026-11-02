@@ -8,6 +8,7 @@ O app mostra o currículo completo de duas pessoas cadastradas no banco, permite
 
 ##  Links
 
+| Item | Link |
 |---|---|
 | **App publicado (QR code para o Expo Go)** | https://expo.dev/preview/update?message=Primeira+vers%C3%A3o+do+app+Curr%C3%ADculo&updateRuntimeVersion=1.0.0&createdAt=2026-11-02T18%3A06%3A43.809Z&slug=exp&projectId=7965ed90-ed6b-4d76-a274-6cfb00ec2081&group=51ea944a-6871-4575-8ea9-f9beb2e17063 |
 | **API (Vercel)** | https://curriculo-back.vercel.app |
