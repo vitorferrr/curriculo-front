@@ -1,7 +1,3 @@
-/**
- * Text e View que trocam de cor sozinhos no modo claro/escuro.
- * https://docs.expo.dev/guides/color-schemes/
- */
 import {
   Text as DefaultText,
   View as DefaultView,
