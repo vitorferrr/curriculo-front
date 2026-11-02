@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
 import ContactButton from '@/components/ContactButton';
+import GeneratePdfButton from '@/components/GeneratePdfButton';
 import ProfileSwitcher from '@/components/ProfileSwitcher';
 import ScreenState from '@/components/ScreenState';
 import SectionTitle from '@/components/SectionTitle';
@@ -102,6 +103,8 @@ export default function HomeScreen() {
           </Pressable>
         ))}
       </View>
+
+      <GeneratePdfButton curriculum={curriculum} />
 
       {curriculum.summary && (
         <View style={styles.section}>
