@@ -2,6 +2,7 @@
   "expo": {
     "name": "Currículo",
     "slug": "curriculo-front",
+    "owner": "programacaomobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -38,6 +39,22 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "7965ed90-ed6b-4d76-a274-6cfb00ec2081"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/7965ed90-ed6b-4d76-a274-6cfb00ec2081"
     }
   }
 }
