@@ -1,4 +1,4 @@
-#  Currículo — App Mobile
+#  Currículo - App Mobile
 
 Aplicativo de **currículo e portfólio** feito com **React Native + Expo**. Os dados vêm de uma **API REST própria** ([curriculo-back](https://github.com/vitorferrr/curriculo-back)), desenvolvida com Express e PostgreSQL e hospedada no Vercel.
 
@@ -8,7 +8,6 @@ O app mostra o currículo completo de duas pessoas cadastradas no banco, permite
 
 ##  Links
 
-| | |
 |---|---|
 | **App publicado (QR code para o Expo Go)** | https://expo.dev/preview/update?message=Primeira+vers%C3%A3o+do+app+Curr%C3%ADculo&updateRuntimeVersion=1.0.0&createdAt=2026-11-02T18%3A06%3A43.809Z&slug=exp&projectId=7965ed90-ed6b-4d76-a274-6cfb00ec2081&group=51ea944a-6871-4575-8ea9-f9beb2e17063 |
 | **API (Vercel)** | https://curriculo-back.vercel.app |
@@ -17,8 +16,6 @@ O app mostra o currículo completo de duas pessoas cadastradas no banco, permite
 ### Como abrir no celular
 1. Instale o **Expo Go** (SDK 58) pela Play Store ou App Store.
 2. Abra o link do app publicado e escaneie o **QR code** com o Expo Go (Android) ou com a câmera (iPhone).
-
----
 
 ##  Funcionalidades
 
