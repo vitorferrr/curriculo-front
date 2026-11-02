@@ -1,36 +1,53 @@
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
-import { api } from '@/services/api';
-import type { Profile } from '@/types/curriculum';
+import { useCurriculum } from '@/context/CurriculumContext';
 
-// Tela provisória: testa a conexão com a API. Vira a Home do currículo na etapa 7
 export default function HomeScreen() {
-  const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    api
-      .getProfiles()
-      .then(setProfiles)
-      .catch((err: Error) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+  const { profiles, curriculum, selectedProfileId, loading, error, selectProfile, retry } =
+    useCurriculum();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Currículo</Text>
+      <View style={styles.switcher}>
+        {profiles.map((profile) => {
+          const active = profile.id === selectedProfileId;
+          return (
+            <Pressable
+              key={profile.id}
+              onPress={() => selectProfile(profile.id)}
+              style={[styles.button, active && styles.buttonActive]}
+            >
+              <Text style={active ? styles.buttonTextActive : undefined}>
+                {profile.name.split(' ')[0]}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
 
       {loading && <ActivityIndicator />}
-      {error && <Text style={styles.error}>{error}</Text>}
 
-      {profiles.map((profile) => (
-        <Text key={profile.id}>
-          {profile.name} — {profile.title}
-        </Text>
-      ))}
+      {error && (
+        <>
+          <Text style={styles.error}>{error}</Text>
+          <Pressable onPress={retry} style={styles.button}>
+            <Text>Tentar novamente</Text>
+          </Pressable>
+        </>
+      )}
+
+      {!loading && curriculum && (
+        <>
+          <Text style={styles.title}>{curriculum.name}</Text>
+          <Text>{curriculum.title}</Text>
+          <Text>
+            {curriculum.academicExperiences.length} formação(ões) ·{' '}
+            {curriculum.professionalExperiences.length} experiência(s) ·{' '}
+            {curriculum.projects.length} projeto(s)
+          </Text>
+        </>
+      )}
     </View>
   );
 }
@@ -42,6 +59,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     padding: 20,
+  },
+  switcher: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 16,
+  },
+  button: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#2563eb',
+  },
+  buttonActive: {
+    backgroundColor: '#2563eb',
+  },
+  buttonTextActive: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
   title: {
     fontSize: 24,

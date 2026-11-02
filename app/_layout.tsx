@@ -5,17 +5,16 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { CurriculumProvider } from "@/context/CurriculumContext";
 
 export {
-  // Captura erros de renderização e mostra uma tela de erro do Expo Router
-  ErrorBoundary
+  ErrorBoundary,
 } from "expo-router";
 
 export const unstable_settings = {
   anchor: "(tabs)",
 };
 
-// Mantém a splash screen até as fontes carregarem
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -44,10 +43,12 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </ThemeProvider>
+    <CurriculumProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+    </CurriculumProvider>
   );
 }
