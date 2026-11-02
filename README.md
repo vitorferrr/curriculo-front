@@ -1,2 +1,0 @@
-# curriculo-front
-atividade mobile
